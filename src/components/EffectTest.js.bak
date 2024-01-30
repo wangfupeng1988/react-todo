@@ -1,0 +1,34 @@
+import { useState, useEffect, useMemo } from 'react'
+
+function EffectTest(props) {
+  const [count, setCount] = useState(0)
+  const doubleCount = useMemo(() => count * 2, [count])
+
+  const [page, setPage] = useState(0)
+  const [keyword, setKeyword] = useState('')
+
+  function fn(page, keyword) {
+    console.log('发起 ajax 请求', page, keyword)
+  }
+
+  // 1. 组件渲染完成触发； 2. page 或 keyword 变化时触发
+  useEffect(() => {
+    fn(page, keyword)
+  }, [page, keyword])
+
+  return (
+    <div>
+      <button onClick={() => setPage(page + 1)}>setPage</button>
+      <button onClick={() => setKeyword(keyword + 'x')}>setKeyword</button>
+      <p>EffectTest page</p>
+
+      <div>
+        <button onClick={() => setCount(count + 1)}>increase</button>
+        <span>
+          {count} {doubleCount}
+        </span>
+      </div>
+    </div>
+  )
+}
+export default EffectTest
